@@ -2,44 +2,100 @@
 @inject NavigationManager Nav
 @implements IDisposable
 
-<div class="page-wrapper @BackgroundClass" data-theme="@(isDark ? "dark" : "light")">
-    <nav class="top-navbar">
-        <NavLink href="" Match="NavLinkMatch.All" class="logo-link">
-            <img src="images/tomato-icon.svg" alt="tomato" class="logo-icon" />
-            <span class="logo-text">KeChap</span>
-        </NavLink>
+<div class="@(isDark ? "dark" : "") min-h-screen bg-main text-ink transition-colors duration-300">
+    <header class="flex w-full items-center justify-between px-8 py-6 max-sm:flex-col max-sm:gap-4">
+        <a href="" class="flex w-fit items-center gap-3">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="size-10">
+                <circle cx="48" cy="56" r="36" fill="#e73c3e" stroke="#222" stroke-width="4" />
+                <path d="M48 26c-3-6-10-8-16-7 6 3 9 8 8 13-5-2-11-1-14 3 6 1 12 1 16 5-3 5-1 11 4 13 2-6 6-11 12-14-4-3-7-7-10-13z" fill="#4ea63b" stroke="#222" stroke-width="3" stroke-linejoin="round" />
+                <ellipse cx="38" cy="54" rx="7" ry="10" fill="#fff" stroke="#222" stroke-width="3" />
+                <ellipse cx="39" cy="56" rx="4" ry="6" fill="#111" />
+                <ellipse cx="60" cy="54" rx="7" ry="10" fill="#fff" stroke="#222" stroke-width="3" />
+                <ellipse cx="61" cy="56" rx="4" ry="6" fill="#111" />
+                <path d="M74 48l5-8 5 8 8 5-8 5-5 8-5-8-8-5z" fill="#ffd000" stroke="#222" stroke-width="3" stroke-linejoin="round" />
+            </svg>
+            <span class="font-brand text-[2.3rem] leading-none font-bold text-[#A02F30] dark:text-ink">Kechap</span>
+        </a>
 
-        <div class="nav-links">
-            <NavLink href="report" class="nav-item">
-                <img src="images/report-icon.svg" alt="" /> Report
-            </NavLink>
-            <NavLink href="settings" class="nav-item">
-                <img src="images/settings-icon.svg" alt="" /> Setting
-            </NavLink>
-            <button class="theme-toggle" @onclick="ToggleTheme">
-                @(isDark ? "☀️ Light" : "🌙 Dark")
-            </button>
-        </div>
-    </nav>
+        @if (!IsAuthPage)
+        {
+            <nav class="flex items-center gap-1.5 rounded-full border border-line bg-pill px-2.5 py-1.5 shadow-lg transition-colors duration-300">
+                <NavPill Href="" Match="NavLinkMatch.All" Label="Timer">
+                    <Icon>
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </Icon>
+                </NavPill>
+                <NavPill Href="report" Label="Report">
+                    <Icon>
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                        <line x1="4" y1="22" x2="4" y2="15"></line>
+                    </Icon>
+                </NavPill>
+                <NavPill Href="settings" Label="Settings">
+                    <Icon>
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </Icon>
+                </NavPill>
+                <NavPill Href="auth" Label="Account">
+                    <Icon>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </Icon>
+                </NavPill>
 
-    <main class="content">
+                <button type="button" @onclick="ToggleTheme"
+                        class="group flex cursor-pointer items-center gap-2 rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap text-accent transition-all duration-200 hover:bg-active">
+                    <svg viewBox="0 0 24 24" class="size-[18px] fill-none stroke-current stroke-2" aria-hidden="true">
+                        @if (isDark)
+                        {
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        }
+                        else
+                        {
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        }
+                    </svg>
+                    <span class="max-w-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-w-[100px] group-hover:opacity-100">
+                        @(isDark ? "Light" : "Dark")
+                    </span>
+                </button>
+            </nav>
+        }
+    </header>
+
+    <main>
         @Body
     </main>
+
+    <AlarmPlayer />
+</div>
+
+<div id="blazor-error-ui" class="fixed inset-x-0 bottom-0 z-50 hidden bg-yellow-100 px-5 py-2 text-sm text-black shadow-lg">
+    An unhandled error has occurred.
+    <a href="." class="reload ml-2 underline">Reload</a>
+    <span class="dismiss float-right cursor-pointer">🗙</span>
 </div>
 
 @code {
-    private bool isDark = false;
+    private bool isDark;
 
-    protected override void OnInitialized()
-    {
-        Nav.LocationChanged += OnLocationChanged;
-    }
+    private bool IsAuthPage =>
+        Nav.ToBaseRelativePath(Nav.Uri).StartsWith("auth", StringComparison.OrdinalIgnoreCase);
 
-    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
         => InvokeAsync(StateHasChanged);
-
-    private string BackgroundClass =>
-        string.IsNullOrEmpty(Nav.ToBaseRelativePath(Nav.Uri)) ? "bg-timer" : "bg-app";
 
     private void ToggleTheme() => isDark = !isDark;
 
