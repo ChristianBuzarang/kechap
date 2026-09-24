@@ -1,31 +1,60 @@
 @page "/report"
+@using kechap.Services
+@inject PomodoroTimerService Pomodoro
+@implements IDisposable
 
-<div class="report-page">
-    <h1>Focus Report 📈</h1>
+<PageTitle>Report - Kechap</PageTitle>
 
-    <div class="metrics-grid">
-        <div class="metric-card"><div class="metric-number">4.5</div><div>Hours Focused</div></div>
-        <div class="metric-card"><div class="metric-number">11</div><div>Sessions Done</div></div>
-        <div class="metric-card"><div class="metric-number">3</div><div>Tasks Finished</div></div>
+<div class="mx-auto my-6 max-w-[750px] px-4 pb-12">
+    <h1 class="mb-6 font-display text-3xl font-bold">Focus Report</h1>
+
+    <div class="mb-8 grid grid-cols-3 gap-4 max-sm:grid-cols-1">
+        <div class="rounded-xl border border-line bg-card px-4 py-6 text-center shadow-lg transition-colors duration-300">
+            <div class="mb-1 font-display text-[2rem] font-bold">@((Pomodoro.FocusedMinutes / 60.0).ToString("0.0"))</div>
+            <div class="text-sm font-medium opacity-80">Hours Focused Today</div>
+        </div>
+        <div class="rounded-xl border border-line bg-card px-4 py-6 text-center shadow-lg transition-colors duration-300">
+            <div class="mb-1 font-display text-[2rem] font-bold">@Pomodoro.CompletedPomodoros</div>
+            <div class="text-sm font-medium opacity-80">Completed Sessions</div>
+        </div>
+        <div class="rounded-xl border border-line bg-card px-4 py-6 text-center shadow-lg transition-colors duration-300">
+            <div class="mb-1 font-display text-[2rem] font-bold">@SessionsUntilLongBreak</div>
+            <div class="text-sm font-medium opacity-80">Sessions Until Long Break</div>
+        </div>
     </div>
 
-    <div class="chart-card">
-        <h3>Weekly Focus Time</h3>
-        <div class="bars">
-            @foreach (var day in weeklyData)
+    <div class="rounded-xl border border-line bg-card p-8 shadow-lg transition-colors duration-300">
+        <h2 class="mb-4 font-display text-xl font-semibold">Weekly Focus Time (Hours)</h2>
+
+        <div class="flex h-[180px] items-end justify-around border-b-2 border-line pt-5">
+            @foreach (var d in week)
             {
-                <div class="bar-col">
-                    <div class="bar" style="height:@(day.Hours * 30)px"></div>
-                    <span>@day.Day</span>
-                </div>
+                <div class="w-9 rounded-t-md bg-accent opacity-75 transition-all" style="height:@(d.Percent)%"></div>
+            }
+        </div>
+        <div class="flex justify-around pt-2.5 text-[0.85rem] font-medium opacity-80">
+            @foreach (var d in week)
+            {
+                <span class="w-9 text-center">@d.Day</span>
             }
         </div>
     </div>
 </div>
 
 @code {
-    private List<(string Day, double Hours)> weeklyData = new()
+    // Sample data until there is a database.
+    private readonly (string Day, int Percent)[] week =
     {
-        ("Mon", 3.2), ("Tue", 4.5), ("Wed", 2.1), ("Thu", 5.0), ("Fri", 3.8), ("Sat", 1.5), ("Sun", 2.9)
+        ("Mon", 60), ("Tue", 85), ("Wed", 40), ("Thu", 95), ("Fri", 70), ("Sat", 50), ("Sun", 30)
     };
+
+    private int SessionsUntilLongBreak =>
+        PomodoroTimerService.SessionsBeforeLongBreak
+        - (Pomodoro.CompletedPomodoros % PomodoroTimerService.SessionsBeforeLongBreak);
+
+    protected override void OnInitialized() => Pomodoro.Changed += OnTimerChanged;
+
+    private void OnTimerChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => Pomodoro.Changed -= OnTimerChanged;
 }
