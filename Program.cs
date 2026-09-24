@@ -1,4 +1,5 @@
 using kechap.Components;
+using kechap.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<kechap.Services.TimerSettingsService>();
+// Scoped = one instance per browser tab (no database for now)
+builder.Services.AddScoped<TimerSettingsService>();
+builder.Services.AddScoped<PomodoroTimerService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
