@@ -1,142 +1,133 @@
 ﻿@page "/"
-@inject kechap.Services.TimerSettingsService SettingsService
+@using kechap.Services
+@inject PomodoroTimerService Pomodoro
 @implements IDisposable
 
-<div class="desktop">
-    <div class="win-window timer-window">
-        <div class="win-titlebar">
-            <div class="title">🍅 Timer</div>
-            <div class="win-controls">
-                <span class="win-btn">_</span>
-                <span class="win-btn">□</span>
-                <span class="win-btn close">✕</span>
-            </div>
+<PageTitle>@Pomodoro.FormattedTime - Kechap</PageTitle>
+
+<div class="mx-auto flex max-w-[520px] flex-col items-center px-4 pt-4 pb-12">
+
+    <section class="w-full rounded-2xl border border-line bg-card px-8 py-10 text-center shadow-xl transition-colors duration-300">
+        <div class="mb-8 flex justify-center gap-2.5">
+            @foreach (var tab in Tabs)
+            {
+                <button type="button" @onclick="() => Pomodoro.SetMode(tab.Mode)"
+                        class="cursor-pointer rounded-md px-4 py-2 text-[0.95rem] font-semibold transition-all hover:bg-tab hover:opacity-100 @(Pomodoro.Mode == tab.Mode ? "bg-tab opacity-100" : "opacity-75")">
+                    @tab.Label
+                </button>
+            }
         </div>
-        <div class="win-menubar">
-            <span class="menu-item @(activeMode == "pomodoro" ? "active" : "")" @onclick='() => SetMode("pomodoro")'>Pomodoro</span>
-            <span class="menu-item @(activeMode == "short" ? "active" : "")" @onclick='() => SetMode("short")'>Short Break</span>
-            <span class="menu-item @(activeMode == "long" ? "active" : "")" @onclick='() => SetMode("long")'>Long Break</span>
+
+        <div class="mb-10 font-display text-[7rem] leading-none font-bold tracking-[-3px] max-sm:text-[4.5rem]">
+            @Pomodoro.FormattedTime
         </div>
-        <div class="win-canvas">
-            <div class="timer-display">@FormattedTime</div>
-            <div class="timer-label">DEEP FOCUS</div>
-            <button class="start-btn @(isRunning ? "pressed" : "")" @onclick="ToggleTimer">
-                @(isRunning ? "PAUSE" : "▶ START")
+
+        <button type="button" @onclick="Pomodoro.Toggle"
+                class="cursor-pointer rounded-lg bg-btn px-16 py-3.5 font-display text-[1.35rem] font-bold tracking-widest text-btn-ink shadow-lg transition hover:-translate-y-0.5 hover:opacity-95">
+            @(Pomodoro.IsRunning ? "PAUSE" : "START")
+        </button>
+    </section>
+
+    <p class="mt-7 text-center font-medium">
+        #@SessionNumber<br />@StatusText
+    </p>
+
+    <section class="mt-8 w-full">
+        <div class="mb-4 flex items-center justify-between border-b-2 border-line pb-2 text-lg font-semibold">
+            <span>Tasks</span>
+            <button type="button" @onclick="ClearFinished" title="Clear finished tasks"
+                    class="flex size-[30px] cursor-pointer items-center justify-center rounded-md bg-black/[0.08]">
+                ⋮
             </button>
         </div>
-    </div>
 
-    <div class="win-window tasks-window">
-        <div class="win-titlebar">
-            <div class="title">📝 Tasks</div>
-            <div class="win-controls">
-                <span class="win-btn">_</span>
-                <span class="win-btn">□</span>
-                <span class="win-btn close">✕</span>
+        @foreach (var task in tasks)
+        {
+            <div class="mb-2 flex items-center gap-3 rounded-lg border border-line bg-card px-4 py-3">
+                <input type="checkbox" checked="@task.Done" @onchange="() => ToggleTask(task)"
+                       class="size-4 cursor-pointer accent-accent" />
+                <span class="flex-1 @(task.Done ? "line-through opacity-60" : "")">@task.Title</span>
+                <button type="button" @onclick="() => RemoveTask(task)" aria-label="Remove task"
+                        class="cursor-pointer opacity-60 hover:opacity-100">✕</button>
             </div>
-        </div>
-        <div class="win-canvas tasks-canvas">
-            @if (tasks.Count == 0 && !isAddingTask)
-            {
-                <p class="empty-state">No tasks yet. Add one below!</p>
-            }
-            @foreach (var task in tasks)
-            {
-                <div class="task-row @(task.Done ? "done" : "")">
-                    <input type="checkbox" checked="@task.Done" @onchange="() => ToggleTask(task)" />
-                    <span>@task.Title</span>
-                    <button class="delete-btn" @onclick="() => RemoveTask(task)">✕</button>
-                </div>
-            }
+        }
 
-            @if (isAddingTask)
-            {
-                <div class="add-task-row">
-                    <input @bind="newTaskTitle" @bind:event="oninput" placeholder="Task name..." @onkeyup="HandleKeyUp" autofocus />
-                    <button class="confirm-btn" @onclick="ConfirmAddTask">Add</button>
-                    <button class="cancel-btn" @onclick="CancelAddTask">Cancel</button>
-                </div>
-            }
-            else
-            {
-                <button class="add-task-btn" @onclick="StartAddTask">+ Add Task</button>
-            }
-        </div>
-    </div>
-</div>
-
-@code {
-    private string activeMode = "pomodoro";
-    private bool isRunning = false;
-    private int secondsLeft;
-    private System.Threading.Timer? timer;
-
-    private List<TaskItem> tasks = new();
-    private bool isAddingTask = false;
-    private string newTaskTitle = "";
-
-    protected override void OnInitialized()
-    {
-        secondsLeft = SettingsService.PomodoroMinutes * 60;
-    }
-
-    private string FormattedTime => TimeSpan.FromSeconds(secondsLeft).ToString(@"mm\:ss");
-
-    private void SetMode(string mode)
-    {
-        activeMode = mode;
-        secondsLeft = mode switch
+        @if (isAddingTask)
         {
-            "pomodoro" => SettingsService.PomodoroMinutes * 60,
-            "short" => SettingsService.ShortBreakMinutes * 60,
-            "long" => SettingsService.LongBreakMinutes * 60,
-            _ => SettingsService.PomodoroMinutes * 60
-        };
-        isRunning = false;
-        timer?.Dispose();
-    }
-
-    private void ToggleTimer()
-    {
-        isRunning = !isRunning;
-        if (isRunning)
-        {
-            timer = new System.Threading.Timer(_ =>
-            {
-                if (secondsLeft > 0)
-                {
-                    secondsLeft--;
-                    InvokeAsync(StateHasChanged);
-                }
-                else
-                {
-                    isRunning = false;
-                    timer?.Dispose();
-                    InvokeAsync(StateHasChanged);
-                }
-            }, null, 0, 1000);
+            <div class="flex gap-2">
+                <input @ref="taskInput" @bind="newTaskTitle" @bind:event="oninput" @onkeyup="HandleKeyUp"
+                       placeholder="Task name..."
+                       class="min-w-0 flex-1 rounded-lg border border-line bg-field px-3 py-2 text-ink focus:ring-2 focus:ring-accent/40 focus:outline-none" />
+                <button type="button" @onclick="ConfirmAddTask"
+                        class="cursor-pointer rounded-lg bg-accent px-4 py-2 font-semibold text-white hover:opacity-90 dark:text-[#780001]">Add</button>
+                <button type="button" @onclick="CancelAddTask"
+                        class="cursor-pointer rounded-lg px-3 py-2 font-semibold hover:bg-tab">Cancel</button>
+            </div>
         }
         else
         {
-            timer?.Dispose();
+            <button type="button" @onclick="StartAddTask"
+                    class="w-full cursor-pointer rounded-lg border-2 border-dashed border-line bg-black/[0.03] p-5 text-center text-[0.95rem] font-medium transition-colors hover:bg-black/[0.07]">
+                + Add Task
+            </button>
+        }
+    </section>
+</div>
+
+@code {
+    private static readonly (TimerMode Mode, string Label)[] Tabs =
+    {
+        (TimerMode.Pomodoro, "Pomodoro"),
+        (TimerMode.ShortBreak, "Short Break"),
+        (TimerMode.LongBreak, "Long Break")
+    };
+
+    private readonly List<TaskItem> tasks = new();
+    private bool isAddingTask;
+    private bool focusTaskInput;
+    private string newTaskTitle = "";
+    private ElementReference taskInput;
+
+    private int SessionNumber => Pomodoro.Mode == TimerMode.Pomodoro
+        ? Pomodoro.CompletedPomodoros + 1
+        : Math.Max(1, Pomodoro.CompletedPomodoros);
+
+    private string StatusText => Pomodoro.Mode switch
+    {
+        TimerMode.ShortBreak => "Time for a short break!",
+        TimerMode.LongBreak => "Time for a long break!",
+        _ => "Time to focus!"
+    };
+
+    protected override void OnInitialized() => Pomodoro.Changed += OnTimerChanged;
+
+    private void OnTimerChanged() => InvokeAsync(StateHasChanged);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (focusTaskInput)
+        {
+            focusTaskInput = false;
+            await taskInput.FocusAsync();
         }
     }
 
     private void ToggleTask(TaskItem task) => task.Done = !task.Done;
     private void RemoveTask(TaskItem task) => tasks.Remove(task);
+    private void ClearFinished() => tasks.RemoveAll(t => t.Done);
 
     private void StartAddTask()
     {
         isAddingTask = true;
+        focusTaskInput = true;
         newTaskTitle = "";
     }
 
     private void ConfirmAddTask()
     {
         if (!string.IsNullOrWhiteSpace(newTaskTitle))
-        {
             tasks.Add(new TaskItem { Title = newTaskTitle.Trim() });
-        }
+
         isAddingTask = false;
         newTaskTitle = "";
     }
@@ -147,14 +138,15 @@
         newTaskTitle = "";
     }
 
-    private void HandleKeyUp(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs e)
+    private void HandleKeyUp(KeyboardEventArgs e)
     {
         if (e.Key == "Enter") ConfirmAddTask();
+        else if (e.Key == "Escape") CancelAddTask();
     }
 
-    public void Dispose() => timer?.Dispose();
+    public void Dispose() => Pomodoro.Changed -= OnTimerChanged;
 
-    public class TaskItem
+    private sealed class TaskItem
     {
         public string Title { get; set; } = "";
         public bool Done { get; set; }
