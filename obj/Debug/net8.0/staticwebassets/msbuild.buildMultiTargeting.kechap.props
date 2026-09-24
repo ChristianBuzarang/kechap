@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\kechap.props" />
-</Project>
