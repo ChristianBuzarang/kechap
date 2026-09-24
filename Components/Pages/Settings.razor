@@ -1,53 +1,107 @@
 @page "/settings"
-@inject kechap.Services.TimerSettingsService SettingsService
+@using kechap.Components.Shared
+@using kechap.Services
+@inject TimerSettingsService TimerSettings
+@inject PomodoroTimerService Pomodoro
+@inject IJSRuntime JS
 
-<div class="settings-page">
-    <h1>Timer Customization ⚙️</h1>
+<PageTitle>Settings - Kechap</PageTitle>
 
-    <div class="settings-card">
-        <div class="setting-row">
-            <label>Pomodoro Duration (mins)</label>
-            <input type="number" @bind="pomodoroMins" min="1" max="120" />
+<div class="mx-auto my-6 max-w-[650px] px-4 pb-12">
+    <h1 class="mb-6 font-display text-3xl font-bold">Timer Settings</h1>
+
+    <div class="mb-6 rounded-2xl border border-line bg-card p-8 shadow-lg transition-colors duration-300">
+        <h2 class="mb-5 border-b border-line pb-2 font-display text-xl font-semibold">Timer (Minutes)</h2>
+
+        <div class="mb-5 flex items-center justify-between">
+            <label for="pomodoro" class="text-[0.95rem] font-medium">Pomodoro</label>
+            <input id="pomodoro" type="number" min="1" max="120" @bind="pomodoroMins" class="@NumberClass" />
         </div>
-        <div class="setting-row">
-            <label>Short Break Duration (mins)</label>
-            <input type="number" @bind="shortBreakMins" min="1" max="60" />
+        <div class="mb-5 flex items-center justify-between">
+            <label for="short-break" class="text-[0.95rem] font-medium">Short Break</label>
+            <input id="short-break" type="number" min="1" max="60" @bind="shortBreakMins" class="@NumberClass" />
         </div>
-        <div class="setting-row">
-            <label>Long Break Duration (mins)</label>
-            <input type="number" @bind="longBreakMins" min="1" max="60" />
+        <div class="flex items-center justify-between">
+            <label for="long-break" class="text-[0.95rem] font-medium">Long Break</label>
+            <input id="long-break" type="number" min="1" max="60" @bind="longBreakMins" class="@NumberClass" />
         </div>
+    </div>
 
-        <button class="save-btn" @onclick="SaveSettings">Save Changes</button>
+    <div class="mb-6 rounded-2xl border border-line bg-card p-8 shadow-lg transition-colors duration-300">
+        <h2 class="mb-5 border-b border-line pb-2 font-display text-xl font-semibold">Preferences</h2>
 
+        <div class="mb-5 flex items-center justify-between">
+            <span class="text-[0.95rem] font-medium">Auto Start Breaks</span>
+            <ToggleSwitch @bind-Value="autoStartBreaks" Label="Auto start breaks" />
+        </div>
+        <div class="mb-5 flex items-center justify-between">
+            <span class="text-[0.95rem] font-medium">Auto Start Pomodoros</span>
+            <ToggleSwitch @bind-Value="autoStartPomodoros" Label="Auto start pomodoros" />
+        </div>
+        <div class="flex items-center justify-between">
+            <label for="alarm" class="text-[0.95rem] font-medium">Alarm Sound</label>
+            <select id="alarm" @bind="alarmSound" @bind:after="PreviewAlarmAsync" class="@SelectClass">
+                @foreach (var sound in TimerSettingsService.AlarmSounds)
+                {
+                    <option value="@sound">@sound</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="mt-4 flex items-center justify-end gap-4">
         @if (showSaved)
         {
-            <div class="saved-note">✔ Saved!</div>
+            <span class="text-sm font-medium">✔ Saved!</span>
         }
+        <button type="button" @onclick="SaveAsync"
+                class="cursor-pointer rounded-lg bg-accent px-10 py-2.5 font-semibold text-white shadow-md transition hover:opacity-90 dark:text-[#780001]">
+            Save Changes
+        </button>
     </div>
 </div>
 
 @code {
+    private const string FieldBase = "rounded-md border border-line bg-field px-2.5 py-1.5 font-semibold text-ink focus:ring-2 focus:ring-accent/40 focus:outline-none";
+    private const string NumberClass = FieldBase + " w-20 text-center";
+    private const string SelectClass = FieldBase + " w-44 cursor-pointer";
+
     private int pomodoroMins;
     private int shortBreakMins;
     private int longBreakMins;
-    private bool showSaved = false;
+    private bool autoStartBreaks;
+    private bool autoStartPomodoros;
+    private string alarmSound = "Kitchen Bell";
+    private bool showSaved;
 
-    protected override void OnInitialized()
+    protected override void OnInitialized() => LoadFromService();
+
+    private void LoadFromService()
     {
-        pomodoroMins = SettingsService.PomodoroMinutes;
-        shortBreakMins = SettingsService.ShortBreakMinutes;
-        longBreakMins = SettingsService.LongBreakMinutes;
+        pomodoroMins = TimerSettings.PomodoroMinutes;
+        shortBreakMins = TimerSettings.ShortBreakMinutes;
+        longBreakMins = TimerSettings.LongBreakMinutes;
+        autoStartBreaks = TimerSettings.AutoStartBreaks;
+        autoStartPomodoros = TimerSettings.AutoStartPomodoros;
+        alarmSound = TimerSettings.AlarmSound;
     }
 
-    private async Task SaveSettings()
+    private async Task PreviewAlarmAsync()
+        => await JS.InvokeVoidAsync("kechapAlarm.play", alarmSound);
+
+    private async Task SaveAsync()
     {
-        SettingsService.PomodoroMinutes = pomodoroMins;
-        SettingsService.ShortBreakMinutes = shortBreakMins;
-        SettingsService.LongBreakMinutes = longBreakMins;
+        TimerSettings.PomodoroMinutes = Math.Clamp(pomodoroMins, 1, 120);
+        TimerSettings.ShortBreakMinutes = Math.Clamp(shortBreakMins, 1, 60);
+        TimerSettings.LongBreakMinutes = Math.Clamp(longBreakMins, 1, 60);
+        TimerSettings.AutoStartBreaks = autoStartBreaks;
+        TimerSettings.AutoStartPomodoros = autoStartPomodoros;
+        TimerSettings.AlarmSound = alarmSound;
+
+        Pomodoro.ApplySettings();   // idle timer picks up the new durations
+        LoadFromService();          // show the clamped values in the form
 
         showSaved = true;
-        StateHasChanged();
         await Task.Delay(1500);
         showSaved = false;
     }
