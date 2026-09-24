@@ -1,0 +1,22 @@
+@using kechap.Services
+@inject PomodoroTimerService Pomodoro
+@inject TimerSettingsService Settings
+@inject IJSRuntime JS
+@implements IDisposable
+
+@code {
+    protected override void OnInitialized() => Pomodoro.SessionCompleted += OnSessionCompleted;
+
+    private void OnSessionCompleted(TimerMode finished) => _ = PlayAsync();
+
+    private Task PlayAsync() => InvokeAsync(async () =>
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("kechapAlarm.play", Settings.AlarmSound);
+        }
+        catch (JSDisconnectedException) { }
+    });
+
+    public void Dispose() => Pomodoro.SessionCompleted -= OnSessionCompleted;
+}
