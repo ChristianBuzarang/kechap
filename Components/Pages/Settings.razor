@@ -1,7 +1,7 @@
 @page "/settings"
 @using kechap.Components.Shared
 @using kechap.Services
-@inject TimerSettingsService TimerSettings
+@inject TimerSettingsService Settings
 @inject PomodoroTimerService Pomodoro
 @inject IJSRuntime JS
 
@@ -78,12 +78,12 @@
 
     private void LoadFromService()
     {
-        pomodoroMins = TimerSettings.PomodoroMinutes;
-        shortBreakMins = TimerSettings.ShortBreakMinutes;
-        longBreakMins = TimerSettings.LongBreakMinutes;
-        autoStartBreaks = TimerSettings.AutoStartBreaks;
-        autoStartPomodoros = TimerSettings.AutoStartPomodoros;
-        alarmSound = TimerSettings.AlarmSound;
+        pomodoroMins = Settings.PomodoroMinutes;
+        shortBreakMins = Settings.ShortBreakMinutes;
+        longBreakMins = Settings.LongBreakMinutes;
+        autoStartBreaks = Settings.AutoStartBreaks;
+        autoStartPomodoros = Settings.AutoStartPomodoros;
+        alarmSound = Settings.AlarmSound;
     }
 
     private async Task PreviewAlarmAsync()
@@ -91,12 +91,12 @@
 
     private async Task SaveAsync()
     {
-        TimerSettings.PomodoroMinutes = Math.Clamp(pomodoroMins, 1, 120);
-        TimerSettings.ShortBreakMinutes = Math.Clamp(shortBreakMins, 1, 60);
-        TimerSettings.LongBreakMinutes = Math.Clamp(longBreakMins, 1, 60);
-        TimerSettings.AutoStartBreaks = autoStartBreaks;
-        TimerSettings.AutoStartPomodoros = autoStartPomodoros;
-        TimerSettings.AlarmSound = alarmSound;
+        Settings.PomodoroMinutes = Math.Clamp(pomodoroMins, 1, 120);
+        Settings.ShortBreakMinutes = Math.Clamp(shortBreakMins, 1, 60);
+        Settings.LongBreakMinutes = Math.Clamp(longBreakMins, 1, 60);
+        Settings.AutoStartBreaks = autoStartBreaks;
+        Settings.AutoStartPomodoros = autoStartPomodoros;
+        Settings.AlarmSound = alarmSound;
 
         Pomodoro.ApplySettings();   // idle timer picks up the new durations
         LoadFromService();          // show the clamped values in the form
