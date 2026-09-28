@@ -11,6 +11,10 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<TimerSettingsService>();
 builder.Services.AddScoped<PomodoroTimerService>();
 
+// Singleton = one shared instance for everyone, so all visitors see the same
+// ratings and comments (saved to App_Data/feedback.json).
+builder.Services.AddSingleton<FeedbackService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
