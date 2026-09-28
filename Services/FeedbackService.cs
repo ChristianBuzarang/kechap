@@ -56,11 +56,41 @@ public sealed class FeedbackService
         lock (_lock)
         {
             _entries.Add(entry);
-            Save();
+
+            try
+            {
+                Save();
+            }
+            catch
+            {
+                // Saving failed: do not keep a comment that is not on disk.
+                _entries.Remove(entry);
+                throw;
+            }
         }
 
-        Changed?.Invoke();
+        NotifyChanged();
         return entry;
+    }
+
+    // Calls each listener on its own, so one broken listener (for example a
+    // browser tab that just disconnected) cannot break posting for everyone else.
+    private void NotifyChanged()
+    {
+        var handlers = Changed;
+        if (handlers is null) return;
+
+        foreach (var handler in handlers.GetInvocationList().Cast<Action>())
+        {
+            try
+            {
+                handler();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "A feedback change listener failed and was skipped.");
+            }
+        }
     }
 
     private List<FeedbackEntry> Load()
