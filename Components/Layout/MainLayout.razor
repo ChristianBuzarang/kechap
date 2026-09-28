@@ -1,8 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 @implements IDisposable
 
-<div class="@(isDark ? "dark" : "") min-h-screen bg-main text-ink transition-colors duration-300">
+<div class="min-h-screen bg-main text-ink transition-colors duration-300">
     <header class="flex w-full items-center justify-between px-8 py-6 max-sm:flex-col max-sm:gap-4">
         <a href="" class="flex w-fit items-center gap-3">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="size-10">
@@ -99,10 +100,24 @@
 
     protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
 
+    // The page's theme was already applied by theme.js; read it so the button icon matches.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        try
+        {
+            isDark = await JS.InvokeAsync<bool>("kechapTheme.isDark");
+            StateHasChanged();
+        }
+        catch (JSDisconnectedException) { }
+    }
+
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
         => InvokeAsync(StateHasChanged);
 
-    private void ToggleTheme() => isDark = !isDark;
+    private async Task ToggleTheme()
+        => isDark = await JS.InvokeAsync<bool>("kechapTheme.toggle");
 
     public void Dispose() => Nav.LocationChanged -= OnLocationChanged;
 }
