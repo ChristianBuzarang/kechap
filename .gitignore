@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 # Tailwind standalone CLI binary
 tools/
+
+# Saved ratings and comments (no database yet)
+App_Data/
