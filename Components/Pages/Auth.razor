@@ -4,7 +4,7 @@
 <PageTitle>Account - Kechap</PageTitle>
 
 <div class="flex min-h-[70vh] items-center justify-center px-6 pt-4 pb-12">
-    <div class="flex w-full max-w-[950px] overflow-hidden rounded-3xl border border-line bg-white shadow-xl transition-colors duration-300 dark:bg-[#1e2812]">
+    <div class="flex w-full max-w-[950px] overflow-hidden rounded-3xl border border-line bg-white shadow-xl transition-colors duration-300 dark:bg-[#1e2812] @(isLogin ? "flex-row-reverse" : "flex-row")">
 
         <div class="flex flex-1 flex-col justify-center p-12 max-sm:p-8">
             @if (isLogin)
