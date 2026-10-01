@@ -204,11 +204,17 @@
   .inset-x-0 {
     inset-inline: 0px;
   }
+  .top-0 {
+    top: 0px;
+  }
   .top-0\.5 {
     top: calc(var(--spacing) * 0.5);
   }
   .bottom-0 {
     bottom: 0px;
+  }
+  .left-0 {
+    left: 0px;
   }
   .left-0\.5 {
     left: calc(var(--spacing) * 0.5);
@@ -272,6 +278,9 @@
   }
   .hidden {
     display: none;
+  }
+  .table {
+    display: table;
   }
   .size-4 {
     width: calc(var(--spacing) * 4);
@@ -356,8 +365,14 @@
   .flex-1 {
     flex: 1;
   }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
   .shrink-0 {
     flex-shrink: 0;
+  }
+  .border-collapse {
+    border-collapse: collapse;
   }
   .translate-x-5 {
     --tw-translate-x: calc(var(--spacing) * 5);
@@ -368,6 +383,9 @@
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .resize {
+    resize: both;
   }
   .resize-y {
     resize: vertical;
@@ -471,6 +489,9 @@
   .bg-accent {
     background-color: var(--nav-text);
   }
+  .bg-black {
+    background-color: var(--color-black);
+  }
   .bg-black\/\[0\.03\] {
     background-color: color-mix(in srgb, #000 3%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -491,6 +512,12 @@
   }
   .bg-field {
     background-color: var(--input-bg);
+  }
+  .bg-forest {
+    background-color: #386641;
+  }
+  .bg-ink {
+    background-color: var(--text-color);
   }
   .bg-ink\/30 {
     background-color: var(--text-color);
@@ -545,6 +572,9 @@
   .p-12 {
     padding: calc(var(--spacing) * 12);
   }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
   .px-2\.5 {
     padding-inline: calc(var(--spacing) * 2.5);
   }
@@ -572,6 +602,9 @@
   .px-16 {
     padding-inline: calc(var(--spacing) * 16);
   }
+  .py-1 {
+    padding-block: var(--spacing);
+  }
   .py-1\.5 {
     padding-block: calc(var(--spacing) * 1.5);
   }
@@ -595,6 +628,9 @@
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
+  }
+  .pt-2 {
+    padding-top: calc(var(--spacing) * 2);
   }
   .pt-2\.5 {
     padding-top: calc(var(--spacing) * 2.5);
@@ -713,6 +749,9 @@
   .text-btn-ink {
     color: var(--btn-text);
   }
+  .text-cream {
+    color: #f2e8cf;
+  }
   .text-forest {
     color: #386641;
   }
@@ -780,6 +819,10 @@
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
+  }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -825,6 +868,12 @@
   }
   .group-\[\.active\]\:opacity-100:is(:where(.group):is(.active) *) {
     opacity: 100%;
+  }
+  .placeholder\:text-ink\/50::placeholder {
+    color: var(--text-color);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--text-color) 50%, transparent);
+    }
   }
   .last\:mb-0:last-child {
     margin-bottom: 0px;
@@ -934,6 +983,9 @@
   .dark\:bg-\[\#fffefa\]\/90:where(.dark, .dark *) {
     background-color: color-mix(in oklab, #fffefa 90%, transparent);
   }
+  .dark\:bg-btn:where(.dark, .dark *) {
+    background-color: var(--btn-bg);
+  }
   .dark\:from-\[\#780001\]:where(.dark, .dark *) {
     --tw-gradient-from: #780001;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -950,6 +1002,9 @@
   }
   .dark\:text-\[\#ff6b6b\]:where(.dark, .dark *) {
     color: #ff6b6b;
+  }
+  .dark\:text-btn-ink:where(.dark, .dark *) {
+    color: var(--btn-text);
   }
   .dark\:text-ink:where(.dark, .dark *) {
     color: var(--text-color);
@@ -1169,6 +1224,11 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -1226,6 +1286,7 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-outline-style: solid;
       --tw-duration: initial;
       --tw-scale-x: 1;
       --tw-scale-y: 1;
