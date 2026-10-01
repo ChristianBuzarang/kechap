@@ -31,13 +31,13 @@
                     </button>
                 }
             </div>
-            <div class="mb-5 min-h-5 text-sm font-medium text-red-700 dark:text-red-300">
+            <div class="mb-5 min-h-5 text-sm font-medium text-red-200 dark:text-red-300">
                 <ValidationMessage For="() => form.Rating" />
             </div>
 
             <InputText @bind-Value="form.Name" maxlength="@FeedbackService.MaxNameLength"
                        placeholder="Your Name" class="@FieldClass" />
-            <div class="mb-5 min-h-5 text-sm font-medium text-red-700 dark:text-red-300">
+            <div class="mb-5 min-h-5 text-sm font-medium text-red-200 dark:text-red-300">
                 <ValidationMessage For="() => form.Name" />
             </div>
 
@@ -46,13 +46,13 @@
                       placeholder="Write your comment or suggestions here..."
                       class="@(FieldClass + " resize-y")"></textarea>
             <div class="mb-5 flex justify-between gap-4 text-sm font-medium">
-                <span class="text-red-700 dark:text-red-300"><ValidationMessage For="() => form.Comment" /></span>
+                <span class="text-red-200 dark:text-red-300"><ValidationMessage For="() => form.Comment" /></span>
                 <span class="shrink-0 opacity-70">@form.Comment.Length / @FeedbackService.MaxCommentLength</span>
             </div>
 
             <div class="flex items-center gap-4">
                 <button type="submit"
-                        class="cursor-pointer rounded-lg bg-accent px-10 py-2.5 font-semibold text-white shadow-md transition hover:opacity-90 dark:text-[#780001]">
+                        class="cursor-pointer rounded-lg bg-btn px-10 py-2.5 font-semibold text-btn-ink shadow-md transition hover:opacity-90">
                     Post Feedback
                 </button>
                 @if (showThanks)
@@ -61,7 +61,7 @@
                 }
                 @if (saveError is not null)
                 {
-                    <span class="text-sm font-medium text-red-700 dark:text-red-300">@saveError</span>
+                    <span class="text-sm font-medium text-red-200 dark:text-red-300">@saveError</span>
                 }
             </div>
         </EditForm>
@@ -88,7 +88,7 @@
 </div>
 
 @code {
-    private const string FieldClass = "w-full rounded-[10px] border border-line bg-field px-4 py-3 text-[0.95rem] text-ink focus:border-accent focus:ring-[3px] focus:ring-accent/15 focus:outline-none";
+    private const string FieldClass = "w-full rounded-[10px] border border-line bg-field px-4 py-3 text-[0.95rem] text-ink placeholder:text-ink/50 focus:border-accent focus:ring-[3px] focus:ring-accent/15 focus:outline-none";
 
     private readonly FeedbackForm form = new();
     private EditContext editContext = default!;
