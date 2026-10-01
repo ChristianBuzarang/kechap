@@ -7,6 +7,9 @@
     <div class="flex w-full max-w-[950px] overflow-hidden rounded-3xl border border-line bg-white shadow-xl transition-colors duration-300 dark:bg-[#1e2812] @(isLogin ? "flex-row-reverse" : "flex-row")">
 
         <div class="flex flex-1 flex-col justify-center p-12 max-sm:p-8">
+            <img src="images/tomatoes.png" alt="Three hand-drawn tomatoes"
+                 class="mb-6 w-40 self-start rounded-xl md:hidden dark:bg-[#fffefa]/90 dark:p-2" />
+
             @if (isLogin)
             {
                 <h1 class="mb-2 font-display text-[2rem] font-bold">Welcome Back</h1>
@@ -43,6 +46,8 @@
         </div>
 
         <div class="hidden flex-1 flex-col items-center justify-center bg-linear-to-br from-[#c7ddb5] to-[#a3c98a] p-12 text-center text-[#273617] md:flex dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
+            <img src="images/tomatoes.png" alt="Three hand-drawn tomatoes"
+                 class="mb-8 w-full max-w-[260px] rounded-2xl dark:bg-[#fffefa]/90 dark:p-3" />
             <h2 class="mb-4 text-2xl font-bold">Master Your Focus</h2>
             <p class="max-w-[280px] text-[0.95rem] opacity-85">
                 Track deep work sessions, build better daily habits, and reach your goals effortlessly.
