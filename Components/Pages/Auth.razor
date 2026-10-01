@@ -42,9 +42,9 @@
             }
         </div>
 
-        <div class="flex flex-1 flex-col items-center justify-center bg-linear-to-br from-leaf to-[#4f7d33] p-12 text-center text-white max-sm:p-8 dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
+        <div class="flex flex-1 flex-col items-center justify-center bg-linear-to-br from-moss to-forest p-12 text-center text-ink max-sm:p-8 dark:from-[#780001] dark:to-[#4a0000]">
             <img src="images/tomatoes.png" alt="Three hand-drawn tomatoes"
-                 class="mb-8 w-full max-w-[260px] rounded-2xl bg-[#fff4ec] p-3 max-sm:max-w-[200px] dark:bg-[#fffefa]/90" />
+                 class="mb-8 w-full max-w-[260px] drop-shadow-lg max-sm:max-w-[200px]" />
             <h2 class="mb-4 text-2xl font-bold">Master Your Focus</h2>
             <p class="max-w-[280px] text-[0.95rem] opacity-90">
                 Track deep work sessions, build better daily habits, and reach your goals effortlessly.
@@ -54,9 +54,9 @@
 </div>
 
 @code {
-    private const string InputClass = "mb-5 w-full rounded-[10px] border border-line bg-field px-4 py-3 text-[0.95rem] text-ink focus:border-leaf focus:ring-[3px] focus:ring-leaf/25 focus:outline-none dark:bg-[#2d3b1e]";
-    private const string SubmitClass = "mt-4 w-full cursor-pointer rounded-[10px] bg-tomato py-3.5 font-semibold text-white transition hover:bg-tomato-hot dark:bg-[#ff6b6b] dark:text-[#111] dark:hover:bg-[#ff6b6b]/90";
-    private const string LinkClass = "cursor-pointer font-semibold text-tomato hover:underline dark:text-[#ff6b6b]";
+    private const string InputClass = "mb-5 w-full rounded-[10px] border border-line bg-field px-4 py-3 text-[0.95rem] text-ink placeholder:text-ink/50 transition focus:border-lime focus:ring-[3px] focus:ring-lime/30 focus:outline-none dark:bg-[#2d3b1e]";
+    private const string SubmitClass = "mt-4 w-full cursor-pointer rounded-[10px] bg-btn py-3.5 font-semibold text-btn-ink transition hover:-translate-y-0.5 hover:opacity-95 dark:bg-[#ff6b6b] dark:text-[#111]";
+    private const string LinkClass = "cursor-pointer font-semibold text-lime hover:underline dark:text-[#ff6b6b]";
 
     private bool isLogin = true;
 
