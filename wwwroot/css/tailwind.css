@@ -11,7 +11,6 @@
     --color-red-700: oklch(50.5% 0.213 27.518);
     --color-amber-400: oklch(82.8% 0.189 84.429);
     --color-yellow-100: oklch(97.3% 0.071 103.193);
-    --color-green-600: oklch(62.7% 0.194 149.214);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -499,9 +498,6 @@
       background-color: color-mix(in oklab, var(--text-color) 30%, transparent);
     }
   }
-  .bg-leaf {
-    background-color: #649942;
-  }
   .bg-main {
     background-color: var(--bg-main);
   }
@@ -510,9 +506,6 @@
   }
   .bg-tab {
     background-color: var(--tab-active);
-  }
-  .bg-tomato {
-    background-color: #e71d0d;
   }
   .bg-white {
     background-color: var(--color-white);
@@ -526,10 +519,6 @@
       --tw-gradient-position: to bottom right in oklab;
     }
     background-image: linear-gradient(var(--tw-gradient-stops));
-  }
-  .from-leaf {
-    --tw-gradient-from: #649942;
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .to-\[\#4f7d33\] {
     --tw-gradient-to: #4f7d33;
@@ -736,9 +725,6 @@
   .text-red-700 {
     color: var(--color-red-700);
   }
-  .text-tomato {
-    color: #e71d0d;
-  }
   .text-white {
     color: var(--color-white);
   }
@@ -862,9 +848,6 @@
     .hover\:bg-tab:hover {
       background-color: var(--tab-active);
     }
-    .hover\:bg-tomato-hot:hover {
-      background-color: #ec2010;
-    }
     .hover\:underline:hover {
       text-decoration-line: underline;
     }
@@ -880,9 +863,6 @@
   }
   .focus\:border-accent:focus {
     border-color: var(--nav-text);
-  }
-  .focus\:border-leaf:focus {
-    border-color: #649942;
   }
   .focus\:ring-2:focus {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
@@ -903,9 +883,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--nav-text) 40%, transparent);
     }
-  }
-  .focus\:ring-leaf\/25:focus {
-    --tw-ring-color: color-mix(in oklab, #649942 25%, transparent);
   }
   .focus\:outline-none:focus {
     --tw-outline-style: none;
@@ -984,17 +961,18 @@
   }
 }
 :root {
-  --bg-main: #fb9c66;
-  --card-bg: #fff4ec;
-  --nav-pill-bg: #fff4ec;
-  --nav-text: #e71d0d;
-  --active-item-bg: rgba(100, 153, 66, 0.2);
-  --text-color: #2f2418;
-  --btn-bg: #e71d0d;
-  --btn-text: #ffffff;
-  --tab-active: rgba(100, 153, 66, 0.22);
-  --border-color: rgba(100, 153, 66, 0.45);
-  --input-bg: #ffffff;
+  --bg-main: #a7c957;
+  --card-bg: #386641;
+  --nav-pill-bg: #386641;
+  --nav-text: #f2e8cf;
+  --active-item-bg: rgba(106, 153, 78, 0.55);
+  --text-color: #f2e8cf;
+  --page-text: #1e3a26;
+  --btn-bg: #f2e8cf;
+  --btn-text: #386641;
+  --tab-active: rgba(106, 153, 78, 0.55);
+  --border-color: #6a994e;
+  --input-bg: #2c5536;
 }
 .dark {
   --bg-main: #273617;
@@ -1003,11 +981,17 @@
   --nav-text: #ffffff;
   --active-item-bg: rgba(255, 255, 255, 0.2);
   --text-color: #fffefadf;
+  --page-text: #fffefadf;
   --btn-bg: #fffefadf;
   --btn-text: #780001;
   --tab-active: rgba(255, 254, 250, 0.2);
   --border-color: rgba(255, 254, 250, 0.2);
   --input-bg: #3a1111;
+}
+@layer components {
+  .bg-card {
+    color: var(--text-color);
+  }
 }
 @layer base {
   body {
