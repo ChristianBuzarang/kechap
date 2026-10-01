@@ -6,9 +6,9 @@
 /* Class-based dark mode: works whenever an ancestor has the "dark" class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light mode: greens #386641 #6A994E #A7C957 with cream #F2E8CF for text and buttons */
+/* Light mode: coral page with greens #386641 #6A994E #A7C957 and cream #F2E8CF for text and buttons */
 :root {
-  --bg-main: #a7c957;
+  --bg-main: #f09785;
   --card-bg: #386641;
   --nav-pill-bg: #386641;
   --nav-text: #f2e8cf;
