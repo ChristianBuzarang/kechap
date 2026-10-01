@@ -4,7 +4,7 @@
 <PageTitle>Account - Kechap</PageTitle>
 
 <div class="flex min-h-[70vh] items-center justify-center px-6 pt-4 pb-12">
-    <div class="flex w-full max-w-[950px] overflow-hidden rounded-3xl border border-line bg-card shadow-xl transition-colors duration-300 dark:bg-[#1e2812] @(isLogin ? "flex-row-reverse" : "flex-row")">
+    <div class="flex w-full max-w-[950px] flex-col overflow-hidden rounded-3xl border border-line bg-card shadow-xl transition-colors duration-300 dark:bg-[#1e2812] @(isLogin ? "md:flex-row-reverse" : "md:flex-row")">
 
         <div class="flex flex-1 flex-col justify-center p-12 max-sm:p-8">
             @if (isLogin)
@@ -42,12 +42,11 @@
             }
         </div>
 
-        <div class="hidden flex-1 flex-col items-center justify-center bg-peach p-12 text-center text-[#273617] md:flex dark:bg-linear-to-br dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
+        <div class="flex flex-1 flex-col items-center justify-center bg-linear-to-br from-leaf to-[#4f7d33] p-12 text-center text-white max-sm:p-8 dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
             <img src="images/tomatoes.png" alt="Three hand-drawn tomatoes"
-                 class="mb-8 w-full max-w-[260px] rounded-2xl dark:bg-[#fffefa]/90 dark:p-3" />
-            <h2 class="mb-3 text-2xl font-bold">Master Your Focus</h2>
-            <div class="mb-4 h-1 w-12 rounded-full bg-leaf"></div>
-            <p class="max-w-[280px] text-[0.95rem] opacity-85">
+                 class="mb-8 w-full max-w-[260px] rounded-2xl bg-[#fff4ec] p-3 max-sm:max-w-[200px] dark:bg-[#fffefa]/90" />
+            <h2 class="mb-4 text-2xl font-bold">Master Your Focus</h2>
+            <p class="max-w-[280px] text-[0.95rem] opacity-90">
                 Track deep work sessions, build better daily habits, and reach your goals effortlessly.
             </p>
         </div>
