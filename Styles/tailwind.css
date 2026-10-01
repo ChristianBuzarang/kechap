@@ -49,6 +49,12 @@
   --color-line: var(--border-color);
   --color-field: var(--input-bg);
 
+  /* Light mode palette: bg-tomato, hover:bg-tomato-hot, bg-leaf, bg-peach ... */
+  --color-tomato: #e71d0d;
+  --color-tomato-hot: #ec2010;
+  --color-leaf: #649942;
+  --color-peach: #fb9c66;
+
   --font-display: "Montserrat", sans-serif;
   --font-body: "Poppins", sans-serif;
   --font-brand: "Covered By Your Grace", cursive;
