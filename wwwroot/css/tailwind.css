@@ -9,7 +9,6 @@
     monospace;
     --color-red-200: oklch(88.5% 0.062 18.334);
     --color-red-300: oklch(80.8% 0.114 19.571);
-    --color-red-700: oklch(50.5% 0.213 27.518);
     --color-amber-400: oklch(82.8% 0.189 84.429);
     --color-yellow-100: oklch(97.3% 0.071 103.193);
     --color-black: #000;
@@ -40,8 +39,8 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-    --animate-auth-in: auth-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    --animate-auth-in: auth-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 @layer base {
@@ -1004,7 +1003,7 @@
   }
 }
 :root {
-  --bg-main: #a7c957;
+  --bg-main: #d30f1d;
   --card-bg: #386641;
   --nav-pill-bg: #386641;
   --nav-text: #f2e8cf;

@@ -6,15 +6,15 @@
 /* Class-based dark mode: works whenever an ancestor has the "dark" class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light mode: coral page with greens #386641 #6A994E #A7C957 and cream #F2E8CF for text and buttons */
+/* Light mode: red page with greens #386641 #6A994E #A7C957 and cream #F2E8CF for text and buttons */
 :root {
-  --bg-main: #f09785;
+  --bg-main: #d30f1d;
   --card-bg: #386641;
   --nav-pill-bg: #386641;
   --nav-text: #f2e8cf;
   --active-item-bg: rgba(106, 153, 78, 0.55);
   --text-color: #f2e8cf;
-  --page-text: #1e3a26;
+  --page-text: #f2e8cf;
   --btn-bg: #f2e8cf;
   --btn-text: #386641;
   --tab-active: rgba(106, 153, 78, 0.55);
