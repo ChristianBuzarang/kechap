@@ -63,10 +63,11 @@
   --font-brand: "Covered By Your Grace", cursive;
 }
 
-/* Animations: animate-fade-up (card on load), animate-auth-in (form/panel when switching) */
+/* Animations: animate-fade-up (card on load), animate-auth-in (form/panel when switching).
+   No fill-mode on purpose: the element is fully visible even if the animation never starts. */
 @theme {
-  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-auth-in: auth-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-auth-in: auth-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 
   @keyframes fade-up {
     from {
