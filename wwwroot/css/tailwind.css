@@ -713,6 +713,9 @@
   .text-btn-ink {
     color: var(--btn-text);
   }
+  .text-forest {
+    color: #386641;
+  }
   .text-ink {
     color: var(--text-color);
   }
@@ -721,6 +724,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--text-color) 25%, transparent);
     }
+  }
+  .text-page {
+    color: var(--page-text);
   }
   .text-red-700 {
     color: var(--color-red-700);
