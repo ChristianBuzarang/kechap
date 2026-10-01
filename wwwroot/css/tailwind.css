@@ -525,6 +525,9 @@
       background-color: color-mix(in oklab, var(--text-color) 30%, transparent);
     }
   }
+  .bg-lime {
+    background-color: #a7c957;
+  }
   .bg-main {
     background-color: var(--bg-main);
   }
