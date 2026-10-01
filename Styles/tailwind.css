@@ -63,6 +63,34 @@
   --font-brand: "Covered By Your Grace", cursive;
 }
 
+/* Animations: animate-fade-up (card on load), animate-auth-in (form/panel when switching) */
+@theme {
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-auth-in: auth-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes auth-in {
+    from {
+      opacity: 0;
+      transform: translateX(var(--auth-from, 0px));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
 /* Anything on a card uses the card text color (cream on the green cards). */
 @layer components {
   .bg-card {
