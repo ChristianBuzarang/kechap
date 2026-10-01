@@ -726,9 +726,6 @@
   .text-cream {
     color: #f2e8cf;
   }
-  .text-forest {
-    color: #386641;
-  }
   .text-ink {
     color: var(--text-color);
   }
@@ -992,9 +989,6 @@
   .dark\:text-btn-ink:where(.dark, .dark *) {
     color: var(--btn-text);
   }
-  .dark\:text-ink:where(.dark, .dark *) {
-    color: var(--text-color);
-  }
   .dark\:text-red-300:where(.dark, .dark *) {
     color: var(--color-red-300);
   }
@@ -1009,7 +1003,7 @@
   --nav-text: #f2e8cf;
   --active-item-bg: rgba(106, 153, 78, 0.55);
   --text-color: #f2e8cf;
-  --page-text: #1e3a26;
+  --page-text: #f2e8cf;
   --btn-bg: #f2e8cf;
   --btn-text: #386641;
   --tab-active: rgba(106, 153, 78, 0.55);
