@@ -45,10 +45,11 @@
             }
         </div>
 
-        <div class="hidden flex-1 flex-col items-center justify-center bg-linear-to-br from-[#c7ddb5] to-[#a3c98a] p-12 text-center text-[#273617] md:flex dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
+        <div class="hidden flex-1 flex-col items-center justify-center bg-peach p-12 text-center text-[#273617] md:flex dark:bg-linear-to-br dark:from-[#780001] dark:to-[#4a0000] dark:text-ink">
             <img src="images/tomatoes.png" alt="Three hand-drawn tomatoes"
                  class="mb-8 w-full max-w-[260px] rounded-2xl dark:bg-[#fffefa]/90 dark:p-3" />
-            <h2 class="mb-4 text-2xl font-bold">Master Your Focus</h2>
+            <h2 class="mb-3 text-2xl font-bold">Master Your Focus</h2>
+            <div class="mb-4 h-1 w-12 rounded-full bg-leaf"></div>
             <p class="max-w-[280px] text-[0.95rem] opacity-85">
                 Track deep work sessions, build better daily habits, and reach your goals effortlessly.
             </p>
@@ -57,9 +58,9 @@
 </div>
 
 @code {
-    private const string InputClass = "mb-5 w-full rounded-[10px] border border-line bg-[#f8f9fa] px-4 py-3 text-[0.95rem] text-ink focus:border-accent focus:ring-[3px] focus:ring-accent/15 focus:outline-none dark:bg-[#2d3b1e]";
-    private const string SubmitClass = "mt-4 w-full cursor-pointer rounded-[10px] bg-[#A02F30] py-3.5 font-semibold text-white transition hover:opacity-90 dark:bg-[#ff6b6b] dark:text-[#111]";
-    private const string LinkClass = "cursor-pointer font-semibold text-[#A02F30] hover:underline dark:text-[#ff6b6b]";
+    private const string InputClass = "mb-5 w-full rounded-[10px] border border-line bg-[#f8f9fa] px-4 py-3 text-[0.95rem] text-ink focus:border-leaf focus:ring-[3px] focus:ring-leaf/25 focus:outline-none dark:bg-[#2d3b1e]";
+    private const string SubmitClass = "mt-4 w-full cursor-pointer rounded-[10px] bg-tomato py-3.5 font-semibold text-white transition hover:bg-tomato-hot dark:bg-[#ff6b6b] dark:text-[#111] dark:hover:bg-[#ff6b6b]/90";
+    private const string LinkClass = "cursor-pointer font-semibold text-tomato hover:underline dark:text-[#ff6b6b]";
 
     private bool isLogin = true;
 
